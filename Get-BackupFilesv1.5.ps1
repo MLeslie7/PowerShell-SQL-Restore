@@ -4,11 +4,11 @@
 
 ##########Constants######
 
-[int]$TotalBackupFiles = 125 #Limit of rows to retrive for recovery, should slightly exceed # of backups taken for the required retention period
+[int]$TotalBackupFiles = 125 #Limit of rows to retrieve for recovery, should slightly exceed # of backups taken for the required retention period
 
-[string]$DefaultMailSQLServer = "vsdalsql01" # SQL Server with DB Mail setup and profile created
+[string]$DefaultMailSQLServer = "[DB Mail Server]" # SQL Server with DB Mail set-up and profile created
 
-[string]$DefaultMailProfile = "Intermedia relay" # SQL Server DB Mail profile setup for sending email
+[string]$DefaultMailProfile = "[DB Mail Profile]" # SQL Server DB Mail profile set-up for sending email
 
 <#
 
@@ -475,7 +475,7 @@ Function PromptForEmailProfile {
 
     $title = "Send Email on job completion"
     $message = "Send email with job results when job is completed showing errors if any.
-Database mail must be setup for this feature to function properly."
+Database mail must be set-up for this feature to function properly."
 
     $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes send email", `
         "Enter yes to enter profile name and recipients of completion email."
@@ -742,7 +742,7 @@ you cannot restore files to the root of a drive it must be a folder.`n"
 
     switch ($result)
         {
-            #if Local folder selected then show folder dialog
+            #if Local folder selected then show folder dialogue
             0 {
             
                 #Prompt for Restore mdf Destination folder
