@@ -6,9 +6,9 @@
 
 [int]$TotalBackupFiles = 125 #Limit of rows to retrive for recovery, should slightly exceed # of backups taken for the required retention period
 
-[string]$DefaultMailSQLServer = "[DB Mail Server]" # SQL Server with DB Mail setup and profile created
+[string]$DefaultMailSQLServer = "vsdalsql01" # SQL Server with DB Mail setup and profile created
 
-[string]$DefaultMailProfile = "[DB Mail Profile]" # SQL Server DB Mail profile setup for sending email
+[string]$DefaultMailProfile = "Intermedia relay" # SQL Server DB Mail profile setup for sending email
 
 <#
 
@@ -475,7 +475,7 @@ Function PromptForEmailProfile {
 
     $title = "Send Email on job completion"
     $message = "Send email with job results when job is completed showing errors if any.
-Database mail must be set-up for this feature to function properly."
+Database mail must be setup for this feature to function properly."
 
     $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes send email", `
         "Enter yes to enter profile name and recipients of completion email."
@@ -884,20 +884,21 @@ if($Error){
         Write-Host "`nSelect the server and profile above if not sure which to select."
 
         $title = "Select SQL Server to send email"
-        $message = "Database mail will be used to send results of the job, usaully use the source or production
-SQL server to send the mail, but either can be used. Be sure DB mail is setup on the SQL instance selected."
+        $message = "Database mail will be used to send results of the job, usually use the source or production
+SQL server to send the mail, but either can be used. Be sure DB mail is set-up on the SQL instance selected.
+DB Mail must be set-up on the server selected for email to be sent successfully."
 
         $Dflt = New-Object System.Management.Automation.Host.ChoiceDescription "&Defaults listed above", `
-            "Job will run but no email will be sent."
+            "Job will send email using DB Mail server and profile listed above."
         
         $Src = New-Object System.Management.Automation.Host.ChoiceDescription "&Source SQL Server: $SourceServer", `
-            "Enter yes to enter profile name and recipients of completion email."
+            "Use source server to send email, a list of profiles will be displayed to choose from."
 
         $Dst = New-Object System.Management.Automation.Host.ChoiceDescription "&Use Dest SQL Server: $DestSQLsvr", `
-            "Job will run but no email will be sent."
+            "Use destination server to send email, a list of profiles will be displayed to choose from."
 
         $ManStr = New-Object System.Management.Automation.Host.ChoiceDescription "&Enter Server and Profile Manually", `
-            "Enter DBMail server and Profile name."
+            "Enter DBMail server and Profile name manually."
 
         $options = [System.Management.Automation.Host.ChoiceDescription[]]($Dflt,$Src,$Dst,$ManStr)
 
@@ -917,7 +918,7 @@ SQL server to send the mail, but either can be used. Be sure DB mail is setup on
         }
 
 
-        [string]$DBMailRecipients = Read-Host "Enter recipients of email, seperate multiple by semicolon"
+        [string]$DBMailRecipients = Read-Host "Enter recipients of email, separate multiple by semicolon"
 
     }
 }
